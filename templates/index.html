@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    Stock Lookup
+    <Link rel="stylesheet" href="{{url_for('static', filename='style.css') }}">
+</head>
+<body>
+ <h1>Stock Lookup</h1>
+<form method= POST>
+    <input type = "text" name = "ticker" placeholder="Enter ticker">
+     <input type="text" name="note" placeholder="Enter note">
+    <button type = "submit">
+        search
+    </button>
+</form>
+ {% if stock_data %}
+
+    {% if stock_data.error %}
+
+        <p>{{ stock_data.error }}</p>
+
+    {% else %}
+
+        <h2>{{ stock_data.ticker }}</h2>
+
+        <p>Current Price: {{ stock_data.price }}</p>
+
+        <p>High: {{ stock_data.high }}</p>
+
+        <p>Low: {{ stock_data.low }}</p>
+        <p>note: {{stock_data.note}}</p>
+        <a href="/add/{{ stock_data.ticker }}?note={{stock_data.note}}">
+            Add to Watchlist
+        </a>
+
+    {% endif %}
+
+{% endif %}
+<h2>Watchlist</h2>
+
+<ul>
+
+    {% for stock in watchlist %}
+
+        <li>{{ stock.ticker }}
+            {{stock.note}}
+        </li>
+        <a href="/delete/{{stock.id}}">
+            Delete
+        </a>
+
+    {% endfor %}
+
+</ul>
+</body>
+</html>
